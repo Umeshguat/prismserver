@@ -13,6 +13,8 @@ var server = app.listen(port, () => {
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(express.json());
+
 
 app.get("/", (req, resp) => {
     resp.status(200).json("socket is running");
