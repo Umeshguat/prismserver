@@ -18,6 +18,17 @@ app.get("/", (req, resp) => {
     resp.status(200).json("socket is running");
 })
 
+app.post('/emit', (req, resp) => {
+
+    const { event, channel, data } = req.body;
+    if (!event || !channel || !data) {
+        return resp.status(400).send({ error: 'Missing required fields' });
+    }
+    io.to(channel).emit(event, data);
+    resp.send({ status: 'emitted' });
+});
+
+
 app.get("/room", (req, resp) => {
     resp.render("room");
 });
