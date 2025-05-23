@@ -12,7 +12,7 @@ const db = mysql.createConnection({
   database: 'qubeta_prism'
 });
 
-db.getConnection((err) => {
+db.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL database:', err);
     return;
