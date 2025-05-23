@@ -61,18 +61,20 @@ io.on('connection', (socket) => {
     });
 
     //update code for
+    //update code for
     socket.on("video_play", async (btnKaMsg) => {
         const { room, video_id, store_id, type } = btnKaMsg;
-        const endtime = moment().format('HH:mm:ss');
+        
+        let endtime = moment().format('HH:mm:ss');
+        console.log(endtime);
         try {
             if (type === 'live') {
 
                 const currentDate = moment().format('YYYY-MM-DD');
                 const updateQuery = `INSERT INTO videos_played_history (video_id, store_id, date, start_time)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)
-                        `;
+                            VALUES (?, ?, ?, ?)`;
                 const result = await query(updateQuery, [video_id, store_id, currentDate, endtime]);
-                console.log("End time updated successfully:", result);
+                console.log("Start time updated successfully:", result);
 
             } else if (type === 'end') {
 
@@ -80,7 +82,7 @@ io.on('connection', (socket) => {
                 const updateQuery = `
                     UPDATE videos_played_history 
                     SET end_time = ? 
-                    WHERE video_id = ? AND store_id = ? AND date = ? AND end_time IS NULL`;
+                    WHERE video_id = ? AND store_id = ? AND date = ?  ORDER BY id DESC LIMIT 1`;
                 const result = await query(updateQuery, [endtime, video_id, store_id, currentDate]);
                 console.log("End time updated successfully:", result);
             }
