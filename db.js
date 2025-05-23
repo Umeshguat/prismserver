@@ -4,14 +4,15 @@
 import mysql from 'mysql';
 
 const db = mysql.createConnection({
- host: '150.242.200.29',
-  port : 3306,
+  connectionLimit: 10, // adjust based on your app's needs
+  host: '150.242.200.29',
+  port: 3306,
   user: 'qubeta_prism',
   password: '=szPo_2icWop',
   database: 'qubeta_prism'
 });
 
-db.connect((err) => {
+db.getConnection((err) => {
   if (err) {
     console.error('Error connecting to MySQL database:', err);
     return;
